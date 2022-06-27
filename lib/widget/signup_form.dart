@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:bank_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
@@ -15,24 +18,38 @@ class SignUpFormState extends State<SignUpForm> {
   String description = "";
   double price = 0;
   var _image;
-  final _picker=ImagePicker();
+  final _picker = ImagePicker();
   @override
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Row(
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               GestureDetector(
-                onTap: () {},
+                onTap: () async {
+                  print("Hello");
+                  final XFile? image =
+                      await _picker.pickImage(source: ImageSource.gallery);
+                  setState(() {
+                    _image = File(image!.path);
+                  });
+                },
                 child: Container(
                   width: 100,
                   height: 100,
                   margin: const EdgeInsets.only(top: 20),
                   decoration: BoxDecoration(color: Colors.blue[200]),
-                  child:Container(
+                  child: _image != null
+                      ? Image.file(
+                          _image,
+                          width: 200.0,
+                          height: 200.0,
+                          fit: BoxFit.fitHeight,
+                        )
+                      : Container(
                           decoration: BoxDecoration(color: Colors.blue[200]),
                           width: 200,
                           height: 200,
@@ -40,16 +57,15 @@ class SignUpFormState extends State<SignUpForm> {
                             Icons.camera_alt,
                             color: Colors.grey[800],
                           ),
-                    ),
+                        ),
                 ),
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text("Image"),
               )
             ],
-)
-
+          ),
           TextFormField(
             decoration: const InputDecoration(
               hintText: 'Add Username',
@@ -104,7 +120,7 @@ class SignUpFormState extends State<SignUpForm> {
                   _formKey.currentState!.save();
                 }
               },
-              child: const Text("Add Book"),
+              child: const Text("Sign Up"),
             ),
           )
         ],

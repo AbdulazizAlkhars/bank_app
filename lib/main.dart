@@ -1,16 +1,19 @@
 import 'package:bank_app/pages/homepage.dart';
 import 'package:bank_app/pages/signup.dart';
+import 'package:bank_app/providers/authprovider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(
       //   MultiProvider(providers: [
-      //   ChangeNotifierProvider(create: ((context) => BooksProvider())),
-      //   ChangeNotifierProvider(create: ((context) => MemberProvider()))
-      // ],
+      ChangeNotifierProvider(
+          create: ((context) => UserProvider()),
+          //   ChangeNotifierProvider(create: ((context) => MemberProvider()))
+          // ],
 
-      const MyApp());
+          child: MyApp()));
   // ));
 }
 
