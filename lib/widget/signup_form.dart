@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 
 class SignUpForm extends StatefulWidget {
   @override
@@ -13,6 +14,8 @@ class SignUpFormState extends State<SignUpForm> {
   String title = "";
   String description = "";
   double price = 0;
+  var _image;
+  final _picker=ImagePicker();
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -20,6 +23,33 @@ class SignUpFormState extends State<SignUpForm> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
+          Row(
+            children: [
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  width: 100,
+                  height: 100,
+                  margin: const EdgeInsets.only(top: 20),
+                  decoration: BoxDecoration(color: Colors.blue[200]),
+                  child:Container(
+                          decoration: BoxDecoration(color: Colors.blue[200]),
+                          width: 200,
+                          height: 200,
+                          child: Icon(
+                            Icons.camera_alt,
+                            color: Colors.grey[800],
+                          ),
+                    ),
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text("Image"),
+              )
+            ],
+)
+
           TextFormField(
             decoration: const InputDecoration(
               hintText: 'Add Username',
