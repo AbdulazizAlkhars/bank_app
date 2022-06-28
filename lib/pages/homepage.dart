@@ -2,12 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+
+import '../models/user.dart';
+import '../providers/authprovider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var username = TextEditingController();
+    var password = TextEditingController();
+
     return Scaffold(
       // backgroundColor: Colors.transparent,
       body: Column(children: [
@@ -20,7 +27,7 @@ class HomePage extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextField(
-            // controller: addTitle,
+            controller: username,
             // style: const TextStyle(fontSize: 12),
             decoration: InputDecoration(
               hintText: 'Enter Your User Name',
@@ -41,7 +48,7 @@ class HomePage extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextField(
-              // controller: addAuthor,
+              controller: password,
               // style: const TextStyle(fontSize: 12),
               decoration: InputDecoration(
                   hintText: 'Enter Your Password',
@@ -59,13 +66,9 @@ class HomePage extends StatelessWidget {
         ),
         ElevatedButton(
             onPressed: () {
-              // context.read<BooksProvider>().addBook(
-              //     title: addTitle.text,
-              //     author: addAuthor.text,
-              //     genre: addGenre.text);
+              context.read<UserProvider>().signin(
+                  User(username: username.text, password: password.text));
               // context.pop();
-              print("Testing");
-              // context.push("/signup");
             },
             child: Text("LOG IN"),
             style: ElevatedButton.styleFrom(

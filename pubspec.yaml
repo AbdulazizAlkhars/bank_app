@@ -36,6 +36,10 @@ dependencies:
   go_router: ^4.1.0
   image_picker: ^0.8.5+3
   provider: ^6.0.3
+  build_runner: ^2.1.11
+  build: ^2.3.0
+  dio: ^4.0.6
+  jwt_decode: ^0.3.1
 
 dev_dependencies:
   flutter_test:

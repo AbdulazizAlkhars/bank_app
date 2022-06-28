@@ -4,6 +4,10 @@ import 'package:bank_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+
+import '../models/user.dart';
+import '../providers/authprovider.dart';
 
 class SignUpForm extends StatefulWidget {
   @override
@@ -14,10 +18,11 @@ class SignUpForm extends StatefulWidget {
 
 class SignUpFormState extends State<SignUpForm> {
   final _formKey = GlobalKey<FormState>();
-  String title = "";
-  String description = "";
-  double price = 0;
+  String username = "";
+  String password = "";
+  String repassword = "";
   var _image;
+
   final _picker = ImagePicker();
   @override
   Widget build(BuildContext context) {
@@ -30,39 +35,74 @@ class SignUpFormState extends State<SignUpForm> {
             children: [
               GestureDetector(
                 onTap: () async {
-                  print("Hello");
-                  final XFile? image =
-                      await _picker.pickImage(source: ImageSource.gallery);
-                  setState(() {
-                    _image = File(image!.path);
-                  });
-                },
-                child: Container(
-                  width: 100,
-                  height: 100,
-                  margin: const EdgeInsets.only(top: 20),
-                  decoration: BoxDecoration(color: Colors.blue[200]),
-                  child: _image != null
-                      ? Image.file(
-                          _image,
-                          width: 200.0,
-                          height: 200.0,
-                          fit: BoxFit.fitHeight,
-                        )
-                      : Container(
-                          decoration: BoxDecoration(color: Colors.blue[200]),
-                          width: 200,
+                  showModalBottomSheet(
+                      context: context,
+                      builder: ((builder) => Container(
                           height: 200,
-                          child: Icon(
-                            Icons.camera_alt,
-                            color: Colors.grey[800],
+                          width: MediaQuery.of(context).size.width,
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 20),
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                "Choose Profile Photo",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              SizedBox(height: 20),
+                              ElevatedButton.icon(
+                                icon: Icon(Icons.camera),
+                                onPressed: () async {
+                                  final XFile? image = await _picker.pickImage(
+                                      source: ImageSource.camera);
+                                  setState(() {
+                                    _image = File(image!.path);
+                                  });
+                                },
+                                label: Text("From Camera"),
+                              ),
+                              ElevatedButton.icon(
+                                icon: Icon(Icons.image),
+                                onPressed: () async {
+                                  final XFile? image = await _picker.pickImage(
+                                      source: ImageSource.gallery);
+                                  setState(() {
+                                    _image = File(image!.path);
+                                  });
+                                },
+                                label: Text("From Gallary"),
+                              ),
+                              ElevatedButton.icon(
+                                icon: Icon(Icons.delete),
+                                onPressed: () {
+                                  setState(() {
+                                    _image = null;
+                                  });
+                                },
+                                label: Text("Remove Image"),
+                              )
+                            ],
+                          ))));
+                },
+                child: CircleAvatar(
+                  radius: 80,
+                  child: _image != null
+                      ? ClipOval(
+                          child: Image.file(
+                            _image,
+                            fit: BoxFit.cover,
+                            width: 160,
+                            height: 160,
                           ),
+                        )
+                      : Icon(
+                          Icons.camera_alt,
+                          color: Color.fromARGB(255, 0, 0, 0),
                         ),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.all(8.0),
-                child: Text("Image"),
+                child: Text("Choose Profile Image"),
               )
             ],
           ),
@@ -72,13 +112,13 @@ class SignUpFormState extends State<SignUpForm> {
             ),
             validator: (value) {
               if (value!.isEmpty) {
-                return "please fill out this field";
+                return "Please enter username";
               } else {
                 return null;
               }
             },
             onSaved: (value) {
-              title = value!;
+              username = value!;
             },
           ),
           TextFormField(
@@ -88,36 +128,25 @@ class SignUpFormState extends State<SignUpForm> {
             maxLines: null,
             validator: (value) {
               if (value!.isEmpty) {
-                return "please fill out this field";
+                return "Please enter a password";
               } else {
                 return null;
               }
             },
             onSaved: (value) {
-              description = value!;
-            },
-          ),
-          TextFormField(
-            decoration: const InputDecoration(
-              hintText: 'Repeat Password',
-            ),
-            validator: (value) {
-              if (value == null) {
-                return "please enter a price";
-              } else if (double.tryParse(value) == null) {
-                return "please enter a number";
-              }
-              return null;
-            },
-            onSaved: (value) {
-              price = double.parse(value!);
+              password = value!;
             },
           ),
           Center(
             child: ElevatedButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(SnackBar(content: Text('Processing Data')));
                   _formKey.currentState!.save();
+                  context.read<UserProvider>().signup(User(
+                      username: username, password: password, image: _image));
+                  context.pop();
                 }
               },
               child: const Text("Sign Up"),
@@ -126,5 +155,6 @@ class SignUpFormState extends State<SignUpForm> {
         ],
       ),
     );
+    // ignore: dead_code
   }
 }
