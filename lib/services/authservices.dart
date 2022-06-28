@@ -4,29 +4,36 @@ import '../models/user.dart';
 import 'clients.dart';
 
 class AuthServices {
-  Future<String> signup(User user) async {
+  Future<String> signup({required User user}) async {
     String token = "";
     try {
-      Response res = await Client.dio.post("/signup", data: user.toJson());
+      FormData data = FormData.fromMap({
+        "username": user.username,
+        "password": user.password,
+        if (user.image != null)
+          "image": await MultipartFile.fromFile(user.image!)
+      });
+      Response res = await Client.dio.post("/signup", data: data);
       print(res.data["token"]);
       token = res.data["token"];
     } on DioError catch (error) {
-      print(error.message);
+      print("error");
     }
 
     return token;
   }
 
-  Future<String> signin(User user) async {
-    String token = "";
+  Future<String> signin({required User user}) async {
+    late String token;
     try {
-      Response res = await Client.dio.post("/signin", data: user.toJson());
-      print(res.data["token"]);
-      token = res.data["token"];
+      Response response = await Client.dio.post('/signin', data: user.toJson());
+      token = response.data["token"];
     } on DioError catch (error) {
       print(error.message);
     }
-
     return token;
   }
 }
+
+bool mazaj = true;
+var e = ["Milk", if (mazaj) "Coffee", "Water"];

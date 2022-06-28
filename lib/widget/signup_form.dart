@@ -21,7 +21,7 @@ class SignUpFormState extends State<SignUpForm> {
   String username = "";
   String password = "";
   String repassword = "";
-  var _image;
+  File? _image;
 
   final _picker = ImagePicker();
   @override
@@ -88,7 +88,7 @@ class SignUpFormState extends State<SignUpForm> {
                   child: _image != null
                       ? ClipOval(
                           child: Image.file(
-                            _image,
+                            _image!,
                             fit: BoxFit.cover,
                             width: 160,
                             height: 160,
@@ -139,14 +139,17 @@ class SignUpFormState extends State<SignUpForm> {
           ),
           Center(
             child: ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (_formKey.currentState!.validate()) {
-                  ScaffoldMessenger.of(context)
-                      .showSnackBar(SnackBar(content: Text('Processing Data')));
                   _formKey.currentState!.save();
-                  context.read<UserProvider>().signup(User(
-                      username: username, password: password, image: _image));
-                  context.pop();
+                  var didSignUp = await context.read<UserProvider>().signup(
+                      User(
+                          username: username,
+                          password: password,
+                          image: _image?.path));
+                  context.go("/profile");
+                } else {
+                  print("error");
                 }
               },
               child: const Text("Sign Up"),

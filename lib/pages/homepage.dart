@@ -3,7 +3,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user.dart';
 import '../providers/authprovider.dart';
 
@@ -65,10 +65,15 @@ class HomePage extends StatelessWidget {
                           color: Color.fromRGBO(236, 229, 199, 10))))),
         ),
         ElevatedButton(
-            onPressed: () {
-              context.read<UserProvider>().signin(
+            onPressed: () async {
+              await context.read<UserProvider>().signin(
                   User(username: username.text, password: password.text));
-              // context.pop();
+
+              if (context.read<UserProvider>().isAuth == true) {
+                context.go("/profile");
+              } else {
+                print("Error");
+              }
             },
             child: Text("LOG IN"),
             style: ElevatedButton.styleFrom(
