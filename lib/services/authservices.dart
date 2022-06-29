@@ -37,9 +37,11 @@ class AuthServices {
 
   Future<void> addDepositService(int deposit) async {
     Deposit data = Deposit(amount: deposit);
-    var req = await Client.dio.post('/deposit', data: data.toJson());
-
-    // print("Network Error");
+    try {
+      var req = await Client.dio.put('/deposit', data: data.toJson());
+    } on DioError catch (error) {
+      print(error.response!.data);
+    }
   }
 
   Future<void> withDrawalService(int deposit) async {

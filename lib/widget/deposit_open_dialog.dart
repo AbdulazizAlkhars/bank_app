@@ -3,6 +3,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:go_router/go_router.dart';
 
 Future<void> showCashDialog(BuildContext context,
     {required String title,
@@ -85,8 +86,13 @@ class _DepositOpenDialogState extends State<DepositOpenDialog> {
                   style: ElevatedButton.styleFrom(onSurface: Colors.blue),
                   onPressed: isButtonActive
                       ? () {
-                          setState(() => isButtonActive = false);
+                          setState(
+                            () => isButtonActive = false,
+                          );
+                          widget.onSubmit(int.parse(_controller.text));
                           _controller.clear();
+                          // context.pop();
+                          print("Hello");
                         }
                       : null,
                   child: Text(widget.buttonText))

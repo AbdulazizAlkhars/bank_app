@@ -140,6 +140,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     onTap: () {
                       showCashDialog(context, title: "Deposit",
                           onSubmit: (value) {
+                        print(value);
                         context.read<UserProvider>().addDeposit(value);
 
                         print("Hello");

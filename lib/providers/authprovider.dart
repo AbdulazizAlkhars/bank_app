@@ -29,6 +29,9 @@ class UserProvider extends ChangeNotifier {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString("myToken", token);
       user = User.fromJson(Jwt.parseJwt(token));
+      Client.dio.options.headers = {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      };
       notifyListeners();
       return true;
     } on Exception catch (e) {
