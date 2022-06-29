@@ -1,3 +1,4 @@
+import 'package:bank_app/models/deposit.dart';
 import 'package:dio/dio.dart';
 
 import '../models/user.dart';
@@ -33,7 +34,21 @@ class AuthServices {
     }
     return token;
   }
-}
 
-bool mazaj = true;
-var e = ["Milk", if (mazaj) "Coffee", "Water"];
+  Future<void> addDepositService(int deposit) async {
+    Deposit data = Deposit(amount: deposit);
+    var req = await Client.dio.post('/deposit', data: data.toJson());
+
+    // print("Network Error");
+  }
+
+  Future<void> withDrawalService(int deposit) async {
+    Deposit data = Deposit(amount: deposit);
+    var req = await Client.dio.post('/withdraw', data: data.toJson());
+  }
+
+  Future<void> getTransactionsService() async {
+    var res = await Client.dio.get('/transactions');
+    print(res.data);
+  }
+}

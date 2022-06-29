@@ -3,6 +3,7 @@ import 'package:bank_app/pages/editprofile.dart';
 import 'package:bank_app/pages/homepage.dart';
 import 'package:bank_app/pages/signup.dart';
 import 'package:bank_app/providers/authprovider.dart';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -11,15 +12,10 @@ import 'pages/transfer.dart';
 import 'pages/withdrawal.dart';
 
 void main() {
-  runApp(
-      //   MultiProvider(providers: [
-      ChangeNotifierProvider(
-          create: ((context) => UserProvider()),
-          //   ChangeNotifierProvider(create: ((context) => MemberProvider()))
-          // ],
-
-          child: MyApp()));
-  // ));
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider<UserProvider>(create: (_) => UserProvider()),
+    // ChangeNotifierProvider<TransProvider>(create: (_) => TransProvider()),
+  ], child: MyApp()));
 }
 
 final _router = GoRouter(routes: [

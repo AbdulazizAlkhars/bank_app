@@ -7,7 +7,7 @@ class User {
   String username;
   String? password;
   String? image;
-  double? balance;
+  int? balance;
   User(
       {this.id,
       required this.username,

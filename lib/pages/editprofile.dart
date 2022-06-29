@@ -1,6 +1,8 @@
 import 'package:bank_app/main.dart';
 import 'package:bank_app/providers/authprovider.dart';
+import 'package:bank_app/widget/deposit_open_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:go_router/go_router.dart';
@@ -17,16 +19,8 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   int index = 0;
-// final screens=[
-//   page1(),
-//   page1(),
-//   page1(),
-//   page1(),
-// ]
   @override
   Widget build(BuildContext context) {
-    // body:
-    // screens[index],
     var u = context.read<UserProvider>().user;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -39,12 +33,12 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
         backgroundColor: Color.fromARGB(255, 115, 112, 112),
         elevation: 0,
-        leading: Container(
-          width: 55,
-          child: Row(
-            children: [Align(), Icon(Icons.account_circle_outlined)],
-          ),
-        ),
+        // leading: Container(
+        //   width: 55,
+        //   child: Row(
+        //     children: [Align(), Icon(Icons.account_circle_outlined)],
+        //   ),
+        // ),
       ),
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(
@@ -65,7 +59,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   selectedIcon: Icon(Icons.home_filled),
                   label: "Home"),
               NavigationDestination(
-                  icon: Icon(Icons.account_balance_wallet),
+                  icon: Icon(Icons.account_balance_wallet_outlined),
                   selectedIcon: Icon(Icons.account_balance_wallet),
                   label: "Account"),
               InkWell(
@@ -138,13 +132,18 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Column(
                 children: [
                   Container(
-                    child: Icon(Icons.arrow_circle_left_sharp,
+                    child: Icon(Icons.add_circle_outline,
                         size: 24, color: Colors.blueAccent),
                     padding: const EdgeInsets.all(12),
                   ),
                   InkWell(
                     onTap: () {
-                      context.push("/deposit");
+                      showCashDialog(context, title: "Deposit",
+                          onSubmit: (value) {
+                        context.read<UserProvider>().addDeposit(value);
+
+                        print("Hello");
+                      }, buttonText: "Deposit");
                     },
                     child: Container(
                       decoration: const BoxDecoration(
@@ -178,7 +177,7 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Column(
                 children: [
                   Container(
-                    child: Icon(Icons.arrow_circle_left_sharp,
+                    child: Icon(Icons.remove_circle_outline_rounded,
                         size: 24, color: Colors.blueAccent),
                     padding: const EdgeInsets.all(12),
                   ),
@@ -218,14 +217,16 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Column(
                 children: [
                   Container(
-                    child: Icon(Icons.arrow_circle_left_sharp,
-                        size: 24, color: Colors.blueAccent),
+                    child: Icon(
+                        Icons.
+                            // list
+                            library_books_outlined,
+                        size: 24,
+                        color: Colors.blueAccent),
                     padding: const EdgeInsets.all(12),
                   ),
                   InkWell(
-                    onTap: () {
-                      context.push("/transfer");
-                    },
+                    onTap: () {},
                     child: Container(
                       decoration: const BoxDecoration(
                           color: Colors.white,

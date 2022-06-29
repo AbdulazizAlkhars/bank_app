@@ -3,7 +3,12 @@ part 'deposit.g.dart';
 
 @JsonSerializable()
 class Deposit {
-  double amount;
-  String date = DateTime.now().toString().split(".").first;
+  int amount;
+  
   Deposit({required this.amount});
+  
+  factory Deposit.fromJson(Map<String, dynamic> json) =>
+      _$DepositFromJson(json);
+  Map<String, dynamic> toJson() => _$DepositToJson(this);
 }
+

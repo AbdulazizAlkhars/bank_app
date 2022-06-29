@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -64,5 +65,21 @@ class UserProvider extends ChangeNotifier {
     prefs.remove('token');
     token = "";
     notifyListeners();
+  }
+
+  void addDeposit(int amount) async {
+    user?.balance = (user?.balance ?? 0) + amount;
+    await AuthServices().addDepositService(amount);
+  }
+
+  void withDrawal(int amount) async {
+    if (amount < (user?.balance ?? 0) && user?.balance != 0) {
+      await AuthServices().withDrawalService(amount);
+      user?.balance = (user?.balance ?? 0) - amount;
+    }
+  }
+
+  void getTransactionsProvider() async {
+    await AuthServices().getTransactionsService();
   }
 }
