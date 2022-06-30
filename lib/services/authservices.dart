@@ -51,6 +51,6 @@ class AuthServices {
 
   Future<void> transferService(int transfer, String username) async {
     Deposit data = Deposit(amount: transfer);
-    await Client.dio.post('/transfer/abdulaziz', data: data.toJson());
+    await Client.dio.post('/transfer/$username', data: data.toJson());
   }
 }

@@ -75,18 +75,21 @@ class UserProvider extends ChangeNotifier {
   void addDeposit(int amount) async {
     user?.balance = (user?.balance ?? 0) + amount;
     await AuthServices().addDepositService(amount);
+    notifyListeners();
   }
 
   void withDrawal(int amount) async {
     if (amount < (user?.balance ?? 0) && user?.balance != 0) {
       await AuthServices().withDrawalService(amount);
       user?.balance = (user?.balance ?? 0) - amount;
+      notifyListeners();
     }
   }
 
   void transferProvider(int transferProvider, String username) async {
     await AuthServices().transferService(transferProvider, username);
     user?.balance = (user?.balance ?? 0) - transferProvider;
+    notifyListeners();
   }
 }
 

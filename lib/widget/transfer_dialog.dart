@@ -8,8 +8,8 @@ import 'package:go_router/go_router.dart';
 Future<void> transCashDialog(BuildContext context,
     {required String title,
     required void Function(int, String) onSubmit,
-    required String buttonText}) {
-  return showDialog(
+    required String buttonText})  {
+  return  showDialog(
       context: context,
       builder: (context) => DepositOpenDialog(
             title: title,
@@ -126,7 +126,7 @@ class _DepositOpenDialogState extends State<DepositOpenDialog> {
                               _controller.text);
                           _controller.clear();
                           _amountController.clear();
-                          // context.pop();
+                          Navigator.pop(context);
                           print("Hello");
                         }
                       : null,

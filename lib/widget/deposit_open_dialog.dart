@@ -91,7 +91,7 @@ class _DepositOpenDialogState extends State<DepositOpenDialog> {
                           );
                           widget.onSubmit(int.parse(_controller.text));
                           _controller.clear();
-                          // context.pop();
+                          Navigator.pop(context);
                           print("Hello");
                         }
                       : null,

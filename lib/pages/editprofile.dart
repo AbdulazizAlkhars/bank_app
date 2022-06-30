@@ -2,6 +2,7 @@ import 'package:bank_app/models/trans.dart';
 import 'package:bank_app/providers/authprovider.dart';
 import 'package:bank_app/widget/deposit_open_dialog.dart';
 import 'package:bank_app/widget/transfer_dialog.dart';
+import 'package:countup/countup.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -81,9 +82,16 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text("Main account"),
-                  Text(
-                      "Balance ${context.read<UserProvider>().user?.balance} in KD"),
+                  Countup(
+                      begin: 0,
+                      end: context
+                          .watch<UserProvider>()
+                          .user!
+                          .balance!
+                          .toDouble())
+                  // Text("Main account"),
+                  // Text(
+                  //     "Balance ${context.watch<UserProvider>().user?.balance} in KD"),
                 ],
               ),
             ),
