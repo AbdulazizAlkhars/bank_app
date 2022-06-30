@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:bank_app/models/deposit.dart';
+import 'package:bank_app/pages/transfer.dart';
 import 'package:flutter/material.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -82,7 +84,13 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  void getTransactionsProvider() async {
-    await AuthServices().getTransactionsService();
+  void transferProvider(int transferProvider, String username) async {
+    await AuthServices().transferService(transferProvider, username);
   }
 }
+
+
+  // void getTransactionsProvider() async {
+  //   await AuthServices().getTransactionsService();
+  // }
+

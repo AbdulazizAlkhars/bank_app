@@ -44,13 +44,13 @@ class AuthServices {
     }
   }
 
-  Future<void> withDrawalService(int deposit) async {
-    Deposit data = Deposit(amount: deposit);
-    var req = await Client.dio.post('/withdraw', data: data.toJson());
+  Future<void> withDrawalService(int withdrawal) async {
+    Deposit data = Deposit(amount: withdrawal);
+    await Client.dio.put('/withdraw', data: data.toJson());
   }
 
-  Future<void> getTransactionsService() async {
-    var res = await Client.dio.get('/transactions');
-    print(res.data);
+  Future<void> transferService(int transfer, String username) async {
+    Deposit data = Deposit(amount: transfer);
+    await Client.dio.post('/transfer/abdulaziz', data: data.toJson());
   }
 }

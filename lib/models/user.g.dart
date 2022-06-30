@@ -11,7 +11,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       username: json['username'] as String,
       password: json['password'] as String?,
       image: json['image'] as String?,
-      balance: (json['balance'] as num?)?.toInt(),
+      balance: json['balance'] as int?,
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{

@@ -7,7 +7,7 @@ part of 'deposit.dart';
 // **************************************************************************
 
 Deposit _$DepositFromJson(Map<String, dynamic> json) => Deposit(
-      amount: (json['amount'] as num).toInt(),
+      amount: json['amount'] as int,
     );
 
 Map<String, dynamic> _$DepositToJson(Deposit instance) => <String, dynamic>{
