@@ -35,7 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(
-            indicatorColor: Colors.blue.shade100,
+            indicatorColor: Colors.transparent,
             labelTextStyle: MaterialStateProperty.all(
                 TextStyle(fontSize: 14, fontWeight: FontWeight.w500))),
         child: NavigationBar(
@@ -51,23 +51,30 @@ class _ProfilePageState extends State<ProfilePage> {
                   icon: Icon(Icons.home_outlined),
                   selectedIcon: Icon(Icons.home_filled),
                   label: "Home"),
-              NavigationDestination(
-                  icon: Icon(Icons.account_balance_wallet_outlined),
-                  selectedIcon: Icon(Icons.account_balance_wallet),
-                  label: "Account"),
               InkWell(
                 onTap: () {
-                  context.push("/transfer");
+                  context.push("/transactions");
                 },
                 child: NavigationDestination(
                     icon: Icon(Icons.swap_horiz_rounded),
                     selectedIcon: Icon(Icons.swap_horizontal_circle),
                     label: "transfer"),
               ),
-              NavigationDestination(
-                  icon: Icon(Icons.account_circle_outlined),
-                  selectedIcon: Icon(Icons.account_circle_rounded),
-                  label: "Profile")
+              context.read<UserProvider>().user!.image != null
+                  ? NavigationDestination(
+                      icon: CircleAvatar(
+                          radius: 15,
+                          backgroundImage: NetworkImage(
+                              '${context.read<UserProvider>().user!.image}')),
+                      selectedIcon: CircleAvatar(
+                          radius: 15,
+                          backgroundImage: NetworkImage(
+                              '${context.read<UserProvider>().user!.image}')),
+                      label: "Profile")
+                  : NavigationDestination(
+                      icon: Icon(Icons.account_circle_outlined),
+                      selectedIcon: Icon(Icons.account_circle_rounded),
+                      label: "Profile")
             ]),
       ),
       // backgroundColor: Colors.transparent,
@@ -248,7 +255,13 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Container(height: 50, child: Text("My Transactions")),
+                Container(
+                    height: 50,
+                    child: InkWell(
+                        onTap: () {
+                          context.push("/transactions");
+                        },
+                        child: Text("My Transactions"))),
                 Expanded(
                   child: FutureBuilder(
                       future: context.read<TransProvider>().getTransProviders(),
