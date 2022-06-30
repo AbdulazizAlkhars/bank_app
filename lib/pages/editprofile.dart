@@ -1,6 +1,7 @@
 import 'package:bank_app/models/trans.dart';
 import 'package:bank_app/providers/authprovider.dart';
 import 'package:bank_app/widget/deposit_open_dialog.dart';
+import 'package:bank_app/widget/transfer_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -206,12 +207,12 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     InkWell(
                       onTap: () {
-                        showCashDialog(context, title: "TRANSFER",
-                            onSubmit: (value) {
-                          print(value);
+                        transCashDialog(context, title: "TRANSFER",
+                            onSubmit: (value, username) {
+                          print(username);
                           context
                               .read<UserProvider>()
-                              .transferProvider(value, "Hello");
+                              .transferProvider(value, username);
 
                           print("Hello");
                         }, buttonText: "TRANSFER");
@@ -254,7 +255,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               Provider.of<TransProvider>(context, listen: true)
                                   .trans;
                           return ListView.builder(
-                              itemCount: profileTrans.length,
+                              itemCount: 3,
                               itemBuilder: (BuildContext context, int index) {
                                 return TransTile(
                                     transaction: profileTrans[index]);

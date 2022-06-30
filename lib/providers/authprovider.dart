@@ -86,6 +86,7 @@ class UserProvider extends ChangeNotifier {
 
   void transferProvider(int transferProvider, String username) async {
     await AuthServices().transferService(transferProvider, username);
+    user?.balance = (user?.balance ?? 0) - transferProvider;
   }
 }
 
