@@ -37,13 +37,18 @@ class _ProfilePageState extends State<ProfilePage> {
                 color: Colors.white,
               ))
         ],
-        title: Text("Welcome ${context.read<UserProvider>().user!.username}"),
+        title: Image.asset(
+          "assets/images/logo_bank_white.png",
+          height: 60,
+          width: 200,
+        ),
+        // title: Text("Welcome ${context.read<UserProvider>().user!.username}"),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(15),
           ),
         ),
-        elevation: 0,
+        elevation: 12.5,
       ),
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(
@@ -101,19 +106,35 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Text("Available balance"),
+                  Row(
+                    children: [
+                      Text(
+                        "Welcome ${context.read<UserProvider>().user!.username.toUpperCase()} !",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+
                   Row(
                     children: [
                       Countup(
-                          begin: 0,
-                          end: context
-                              .watch<UserProvider>()
-                              .user!
-                              .balance!
-                              .toDouble()),
+                        begin: 0,
+                        end: context
+                            .watch<UserProvider>()
+                            .user!
+                            .balance!
+                            .toDouble(),
+                        style: TextStyle(fontSize: 30),
+                      ),
                       Text(" KWD")
                     ],
-                  )
+                  ),
+                  Row(
+                    children: [
+                      Text("Available Balance"),
+                    ],
+                  ),
                   // Text("Main account"),
                   // Text(
                   //     "Balance ${context.watch<UserProvider>().user?.balance} in KD"),

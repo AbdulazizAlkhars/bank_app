@@ -27,7 +27,7 @@ class SignUp extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(25.0),
               child: Text(
-                "Create Accont",
+                "Create Account",
                 style: TextStyle(
                   fontSize: 25,
                   //  fontWeight: FontWeight.bold

@@ -99,11 +99,34 @@ class SignUpFormState extends State<SignUpForm> {
                           ),
                         )
                       : Center(
-                          child: Icon(
-                            Icons.account_circle_rounded,
-                            color: Color.fromARGB(255, 141, 141, 141),
-                            size: 140,
+                          child: CircleAvatar(
+                            radius: 100.0,
+                            backgroundColor: Colors.white,
+                            child: CircleAvatar(
+                              child: Align(
+                                alignment: Alignment.bottomRight,
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.white,
+                                  radius: 19.0,
+                                  child: Icon(
+                                    Icons.camera_alt,
+                                    size: 20.0,
+                                    color: Color(0xFF404040),
+                                  ),
+                                ),
+                              ),
+                              radius: 100.0,
+                              backgroundColor: Colors.white,
+                              backgroundImage:
+                                  AssetImage('assets/images/image-default.png'),
+                            ),
                           ),
+
+                          // Icon(
+                          //   Icons.account_circle_rounded,
+                          //   color: Color.fromARGB(255, 141, 141, 141),
+                          //   size: 140,
+                          // ),
                         ),
                 ),
               ),
