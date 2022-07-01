@@ -16,7 +16,7 @@ class HomePage extends StatelessWidget {
     var password = TextEditingController();
 
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 243, 239, 239),
+      backgroundColor: Color.fromARGB(255, 241, 240, 240),
       body: Column(children: [
         Image(
             width: 275,
@@ -69,7 +69,7 @@ class HomePage extends StatelessWidget {
                 suffixIcon: Icon(Icons.visibility_off),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12.5),
-                  borderSide: const BorderSide(
+                  borderSide: BorderSide(
                       width: 1, color: Color.fromRGBO(236, 229, 199, 10)),
                 ),
                 enabledBorder: OutlineInputBorder(

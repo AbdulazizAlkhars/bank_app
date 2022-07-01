@@ -46,6 +46,7 @@ dependencies:
   json_serializable: ^6.2.0
   countup: ^0.1.4
   custom_navigation_bar: ^0.8.2
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

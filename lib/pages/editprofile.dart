@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../providers/trans_provider.dart';
 import '../widget/transactions_list.dart';
+import 'package:intl/intl.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key? key}) : super(key: key);
@@ -23,14 +24,25 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     var u = context.read<UserProvider>().user;
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 241, 240, 240),
       appBar: AppBar(
+        backgroundColor: Color.fromARGB(246, 9, 111, 237),
+        actions: [
+          IconButton(
+              onPressed: () {
+                context.push("/");
+              },
+              icon: Icon(
+                Icons.logout_outlined,
+                color: Colors.white,
+              ))
+        ],
         title: Text("Welcome ${context.read<UserProvider>().user!.username}"),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(5),
+            bottom: Radius.circular(15),
           ),
         ),
-        backgroundColor: Color.fromARGB(255, 115, 112, 112),
         elevation: 0,
       ),
       bottomNavigationBar: NavigationBarTheme(
@@ -89,13 +101,19 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  Countup(
-                      begin: 0,
-                      end: context
-                          .watch<UserProvider>()
-                          .user!
-                          .balance!
-                          .toDouble())
+                  Text("Available balance"),
+                  Row(
+                    children: [
+                      Countup(
+                          begin: 0,
+                          end: context
+                              .watch<UserProvider>()
+                              .user!
+                              .balance!
+                              .toDouble()),
+                      Text(" KWD")
+                    ],
+                  )
                   // Text("Main account"),
                   // Text(
                   //     "Balance ${context.watch<UserProvider>().user?.balance} in KD"),

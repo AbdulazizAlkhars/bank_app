@@ -48,7 +48,10 @@ class SignUpFormState extends State<SignUpForm> {
                                 "Choose Profile Photo",
                                 style: TextStyle(fontSize: 20),
                               ),
-                              SizedBox(height: 20),
+                              SizedBox(
+                                height: 30,
+                                width: 100,
+                              ),
                               ElevatedButton.icon(
                                 icon: Icon(Icons.camera),
                                 onPressed: () async {
@@ -84,7 +87,8 @@ class SignUpFormState extends State<SignUpForm> {
                           ))));
                 },
                 child: CircleAvatar(
-                  radius: 80,
+                  backgroundColor: Colors.transparent,
+                  radius: 70,
                   child: _image != null
                       ? ClipOval(
                           child: Image.file(
@@ -94,65 +98,120 @@ class SignUpFormState extends State<SignUpForm> {
                             height: 160,
                           ),
                         )
-                      : Icon(
-                          Icons.camera_alt,
-                          color: Color.fromARGB(255, 0, 0, 0),
+                      : Center(
+                          child: Icon(
+                            Icons.account_circle_rounded,
+                            color: Color.fromARGB(255, 141, 141, 141),
+                            size: 140,
+                          ),
                         ),
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text("Choose Profile Image"),
+                padding: EdgeInsets.all(25.0),
+                child: Text(
+                  "Choose Profile Image",
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
               )
             ],
           ),
-          TextFormField(
-            decoration: const InputDecoration(
-              hintText: 'Add Username',
-            ),
-            validator: (value) {
-              if (value!.isEmpty) {
-                return "Please enter username";
-              } else {
-                return null;
-              }
-            },
-            onSaved: (value) {
-              username = value!;
-            },
-          ),
-          TextFormField(
-            decoration: const InputDecoration(
-              hintText: 'Add Password',
-            ),
-            maxLines: null,
-            validator: (value) {
-              if (value!.isEmpty) {
-                return "Please enter a password";
-              } else {
-                return null;
-              }
-            },
-            onSaved: (value) {
-              password = value!;
-            },
-          ),
-          Center(
-            child: ElevatedButton(
-              onPressed: () async {
-                if (_formKey.currentState!.validate()) {
-                  _formKey.currentState!.save();
-                  var didSignUp = await context.read<UserProvider>().signup(
-                      User(
-                          username: username,
-                          password: password,
-                          image: _image?.path));
-                  context.go("/profile");
+          Padding(
+            padding: const EdgeInsets.fromLTRB(25, 35, 25, 6),
+            child: TextFormField(
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                hintText: 'Add Username',
+                prefixIcon: Icon(Icons.login),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.5),
+                  borderSide: const BorderSide(
+                      width: 1, color: Color.fromRGBO(236, 229, 199, 10)),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.5),
+                  borderSide: const BorderSide(
+                      width: 1, color: Color.fromRGBO(236, 229, 199, 10)),
+                ),
+              ),
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return "Please enter username";
                 } else {
-                  print("error");
+                  return null;
                 }
               },
-              child: const Text("Sign Up"),
+              onSaved: (value) {
+                username = value!;
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(25, 6, 25, 15),
+            child: TextFormField(
+              decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: 'Add Password',
+                  prefixIcon: Icon(Icons.lock_outline),
+                  // suffixIcon: Icon(Icons.visibility),
+                  suffixIcon: Icon(Icons.visibility_off),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.5),
+                    borderSide: BorderSide(
+                        width: 1, color: Color.fromRGBO(236, 229, 199, 10)),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.5),
+                      borderSide: BorderSide(
+                          width: 1, color: Color.fromRGBO(236, 229, 199, 10)))),
+              maxLines: null,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return "Please enter a password";
+                } else {
+                  return null;
+                }
+              },
+              onSaved: (value) {
+                password = value!;
+              },
+              // obscureText: true,
+              // lets make it unvisable
+            ),
+          ),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(25, 6, 25, 25),
+              child: SizedBox(
+                width: 340,
+                height: 49,
+                child: ElevatedButton(
+                    onPressed: () async {
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
+                        var didSignUp = await context
+                            .read<UserProvider>()
+                            .signup(User(
+                                username: username,
+                                password: password,
+                                image: _image?.path));
+                        context.go("/profile");
+                      } else {
+                        print("error");
+                      }
+                    },
+                    child: Text("Sign Up"),
+                    style: ElevatedButton.styleFrom(
+                        textStyle: TextStyle(fontSize: 20),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.5),
+                        ),
+                        primary: Color.fromARGB(246, 9, 111, 237))),
+              ),
             ),
           )
         ],

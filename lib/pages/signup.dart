@@ -9,15 +9,40 @@ class SignUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 243, 239, 239),
       appBar: AppBar(
-        title: const Text("Sign Up"),
-      ),
+          backgroundColor: Color.fromARGB(246, 9, 111, 237),
+          title: Image.asset(
+            "assets/images/logo_bank_white.png",
+            height: 60,
+            width: 200,
+          )
+          // const Text("Sign Up"),
+          ),
       resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            Text("Kindly Fill Out Your Informations"),
+            Padding(
+              padding: const EdgeInsets.all(25.0),
+              child: Text(
+                "Create Accont",
+                style: TextStyle(
+                  fontSize: 25,
+                  //  fontWeight: FontWeight.bold
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text(
+                "Kindly Fill Out Your Informations",
+                style: TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+            ),
             SignUpForm(),
           ],
         ),
