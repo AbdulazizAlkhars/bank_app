@@ -8,7 +8,6 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import '../providers/trans_provider.dart';
 import '../widget/transactions_list.dart';
-import 'package:intl/intl.dart';
 
 class ProfilePage extends StatefulWidget {
   ProfilePage({Key? key}) : super(key: key);
@@ -22,7 +21,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    var u = context.read<UserProvider>().user;
+    //  var formatter = NumberFormat('###,###,000');
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 241, 240, 240),
       appBar: AppBar(
@@ -95,53 +94,68 @@ class _ProfilePageState extends State<ProfilePage> {
             ]),
       ),
       // backgroundColor: Colors.transparent,
+
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            height: 150,
-            width: 170,
-            child: Card(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        "Welcome ${context.read<UserProvider>().user!.username.toUpperCase()} !",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-
-                  Row(
-                    children: [
-                      Countup(
-                        begin: 0,
-                        end: context
-                            .watch<UserProvider>()
-                            .user!
-                            .balance!
-                            .toDouble(),
-                        style: TextStyle(fontSize: 30),
-                      ),
-                      Text(" KWD")
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text("Available Balance"),
-                    ],
-                  ),
-                  // Text("Main account"),
-                  // Text(
-                  //     "Balance ${context.watch<UserProvider>().user?.balance} in KD"),
-                ],
-              ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(10, 25, 10, 10),
+            child: Text(
+              "Welcome ${context.read<UserProvider>().user!.username.toUpperCase()} !",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ),
+          Container(
+              height: 200,
+              // width: 50,
+              child: Card(
+                child: Column(
+                  children: [
+                    Padding(
+                        padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                        child: Text(
+                          " Main Account",
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        )),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 25, 10, 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Countup(
+                            begin: 0,
+                            end: context
+                                .watch<UserProvider>()
+                                .user!
+                                .balance!
+                                .toDouble(),
+                            style: TextStyle(fontSize: 30),
+                          ),
+                          Text(" KWD")
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(10, 15, 10, 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("Available Balance"),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                elevation: 8,
+                // shadowColor: Colors.green,
+                margin: EdgeInsets.all(20),
+                shape: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(color: Colors.white)),
+              )),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -163,7 +177,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     Container(
                       child: Icon(Icons.add_circle_outline,
                           size: 24, color: Colors.blueAccent),
-                      padding: const EdgeInsets.all(12),
+                      padding: const EdgeInsets.all(012),
                     ),
                     InkWell(
                       onTap: () {
@@ -255,7 +269,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Column(
                   children: [
                     Container(
-                      child: Icon(Icons.library_books_outlined,
+                      child: Icon(Icons.autorenew_outlined,
                           size: 24, color: Colors.blueAccent),
                       padding: const EdgeInsets.all(12),
                     ),
@@ -300,7 +314,16 @@ class _ProfilePageState extends State<ProfilePage> {
                         onTap: () {
                           context.push("/transactions");
                         },
-                        child: Text("My Transactions"))),
+                        child: Center(
+                          child: Padding(
+                              padding: EdgeInsets.fromLTRB(10, 15, 10, 10),
+                              child: Text(
+                                "My Transactions",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                ),
+                              )),
+                        ))),
                 Expanded(
                   child: FutureBuilder(
                       future: context.read<TransProvider>().getTransProviders(),
