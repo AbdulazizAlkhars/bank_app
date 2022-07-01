@@ -16,29 +16,39 @@ class HomePage extends StatelessWidget {
     var password = TextEditingController();
 
     return Scaffold(
-      // backgroundColor: Colors.transparent,
+      backgroundColor: Color.fromARGB(255, 243, 239, 239),
       body: Column(children: [
         Image(
-            width: 150,
-            height: 200,
-            image: AssetImage("assets/images/banklogo.png")),
-        Text("Welcome,"),
-        Text("Have a nice day!"),
+            width: 275,
+            height: 300,
+            image: AssetImage("assets/images/logo_b1.png")),
+        Text(
+          "Welcome.",
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        Text(
+          "Have a nice day!",
+          style: TextStyle(
+            fontSize: 20,
+          ),
+        ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.fromLTRB(25, 35, 25, 6),
           child: TextField(
             controller: username,
             // style: const TextStyle(fontSize: 12),
             decoration: InputDecoration(
+              filled: true,
+              fillColor: Colors.white,
               hintText: 'Enter Your User Name',
               prefixIcon: Icon(Icons.login),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(12.5),
                 borderSide: const BorderSide(
                     width: 1, color: Color.fromRGBO(236, 229, 199, 10)),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(12.5),
                 borderSide: const BorderSide(
                     width: 1, color: Color.fromRGBO(236, 229, 199, 10)),
               ),
@@ -46,45 +56,68 @@ class HomePage extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.fromLTRB(25, 6, 25, 15),
           child: TextField(
-              controller: password,
-              // style: const TextStyle(fontSize: 12),
-              decoration: InputDecoration(
-                  hintText: 'Enter Your Password',
-                  prefixIcon: Icon(Icons.password),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+            controller: password,
+            // style: const TextStyle(fontSize: 12),
+            decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.white,
+                hintText: 'Enter Your Password',
+                prefixIcon: Icon(Icons.lock_outline),
+                // suffixIcon: Icon(Icons.visibility),
+                suffixIcon: Icon(Icons.visibility_off),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.5),
+                  borderSide: const BorderSide(
+                      width: 1, color: Color.fromRGBO(236, 229, 199, 10)),
+                ),
+                enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.5),
                     borderSide: const BorderSide(
-                        width: 1, color: Color.fromRGBO(236, 229, 199, 10)),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: const BorderSide(
-                          width: 1,
-                          color: Color.fromRGBO(236, 229, 199, 10))))),
+                        width: 1, color: Color.fromRGBO(236, 229, 199, 10)))),
+            obscureText: true,
+          ),
         ),
-        ElevatedButton(
-            onPressed: () async {
-              await context.read<UserProvider>().signin(
-                  User(username: username.text, password: password.text));
+        Padding(
+          padding: const EdgeInsets.fromLTRB(25, 6, 25, 25),
+          child: SizedBox(
+            width: 340,
+            height: 49,
+            child: ElevatedButton(
+                onPressed: () async {
+                  await context.read<UserProvider>().signin(
+                      User(username: username.text, password: password.text));
 
-              if (context.read<UserProvider>().isAuth == true) {
-                context.go("/profile");
-              } else {
-                print("Error");
-              }
-            },
-            child: Text("LOG IN"),
-            style: ElevatedButton.styleFrom(
-                primary: Color.fromRGBO(205, 194, 174, 10))),
-        Text("Forget Password"),
+                  if (context.read<UserProvider>().isAuth == true) {
+                    context.go("/profile");
+                  } else {
+                    print("Error");
+                  }
+                },
+                child: Text("Login"),
+                style: ElevatedButton.styleFrom(
+                    textStyle: TextStyle(fontSize: 20),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.5),
+                    ),
+                    primary: Color.fromARGB(246, 9, 111, 237))),
+          ),
+        ),
+        // Text("Forget Password"),
         Text("Don't Have an Account?"),
         GestureDetector(
           onTap: () {
             context.push("/signup");
           },
-          child: Text("Create an Account"),
+          child: Text(
+            "Create an Account",
+            style: TextStyle(
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+                decoration: TextDecoration.underline,
+                color: Colors.blueAccent),
+          ),
         ),
       ]),
     );
