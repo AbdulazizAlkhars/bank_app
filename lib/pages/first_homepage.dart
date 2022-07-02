@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user.dart';
 import '../providers/authprovider.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+class FirstHomePage extends StatelessWidget {
+  const FirstHomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +13,7 @@ class HomePage extends StatelessWidget {
     var password = TextEditingController();
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Color.fromARGB(255, 241, 240, 240),
       body: Column(children: [
         Image(
@@ -90,7 +88,7 @@ class HomePage extends StatelessWidget {
                       User(username: username.text, password: password.text));
 
                   if (context.read<UserProvider>().isAuth == true) {
-                    context.go("/profile");
+                    context.go("/SecondMain");
                   } else {
                     print("Error");
                   }

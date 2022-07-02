@@ -1,7 +1,7 @@
 import 'package:bank_app/pages/all_transactions.dart';
-import 'package:bank_app/pages/editprofile.dart';
-import 'package:bank_app/pages/homepage.dart';
-import 'package:bank_app/pages/signup.dart';
+import 'package:bank_app/pages/first_homepage.dart';
+import 'package:bank_app/pages/second_main_page.dart';
+import 'package:bank_app/pages/signup_page.dart';
 import 'package:bank_app/providers/authprovider.dart';
 import 'package:bank_app/providers/trans_provider.dart';
 import 'package:flutter/material.dart';
@@ -16,9 +16,9 @@ void main() {
 }
 
 final _router = GoRouter(routes: [
-  GoRoute(path: "/", builder: (context, state) => HomePage()),
+  GoRoute(path: "/", builder: (context, state) => FirstHomePage()),
   GoRoute(path: "/signup", builder: (context, state) => SignUp()),
-  GoRoute(path: "/profile", builder: (context, state) => ProfilePage()),
+  GoRoute(path: "/SecondMain", builder: (context, state) => SecondMain()),
   GoRoute(path: "/transactions", builder: (context, state) => Transactions()),
 ]);
 

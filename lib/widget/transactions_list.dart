@@ -48,7 +48,7 @@ class TransTile extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: Column(
                 children: [
-                  Text("${context.read<UserProvider>().user?.balance}KD",
+                  Text("${context.read<UserProvider>().user?.balance}KWD",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 12,

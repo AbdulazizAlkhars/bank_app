@@ -10,7 +10,18 @@ class Transactions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 241, 240, 240),
+      resizeToAvoidBottomInset: false,
       body: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
+            child: Text(
+              "Transactions",
+              style: TextStyle(fontSize: 25),
+            ),
+          ),
+        ),
         Container(height: 50),
         Expanded(
           child: FutureBuilder(

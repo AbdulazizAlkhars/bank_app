@@ -61,7 +61,7 @@ class SignUpFormState extends State<SignUpForm> {
                                     _image = File(image!.path);
                                   });
                                 },
-                                label: Text("From Camera"),
+                                label: Text("From Camera  "),
                               ),
                               ElevatedButton.icon(
                                 icon: Icon(Icons.image),
@@ -72,7 +72,7 @@ class SignUpFormState extends State<SignUpForm> {
                                     _image = File(image!.path);
                                   });
                                 },
-                                label: Text("From Gallary"),
+                                label: Text("From Gallary   "),
                               ),
                               ElevatedButton.icon(
                                 icon: Icon(Icons.delete),
@@ -222,7 +222,7 @@ class SignUpFormState extends State<SignUpForm> {
                                 username: username,
                                 password: password,
                                 image: _image?.path));
-                        context.go("/profile");
+                        context.go("/SecondMain");
                       } else {
                         print("error");
                       }
