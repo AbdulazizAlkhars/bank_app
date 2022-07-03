@@ -273,16 +273,19 @@ class NavHomePage extends StatelessWidget {
                                 return profileTrans.length != 0
                                     ? TransTile(
                                         transaction: profileTrans[index])
-                                    : Card(
-                                        child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Text("No Transactions",
-                                                  style: TextStyle(
-                                                    fontSize: 20,
-                                                  ))
-                                            ]),
+                                    : Container(
+                                        height: 150,
+                                        child: Card(
+                                          child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text("No Transactions",
+                                                    style: TextStyle(
+                                                      fontSize: 20,
+                                                    ))
+                                              ]),
+                                        ),
                                       );
                               });
                         }

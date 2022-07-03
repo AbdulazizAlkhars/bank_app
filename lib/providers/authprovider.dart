@@ -96,6 +96,22 @@ class UserProvider extends ChangeNotifier {
     user?.balance = (user?.balance ?? 0) - transferProvider;
     notifyListeners();
   }
+
+  Future<bool> editProfileProvider(User user) async {
+    try {
+      token = await AuthServices().editProfile(user: user);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString("myToken", token);
+      this.user = User.fromJson(Jwt.parseJwt(token));
+      Client.dio.options.headers = {
+        HttpHeaders.authorizationHeader: 'Bearer $token',
+      };
+      notifyListeners();
+      return true;
+    } on Exception catch (e) {
+      return false;
+    }
+  }
 }
 
 

@@ -15,9 +15,10 @@ class Transactions extends StatefulWidget {
 
 class _TransactionsState extends State<Transactions> {
   var searchController = TextEditingController();
-
+  bool switchFilter = true;
   late Future<List<Trans>> filterList;
   late Future<List<Trans>> filterList1;
+  int type = 0;
   @override
   Widget build(BuildContext context) {
     Future<List<Trans>> search(String query) {
@@ -43,8 +44,8 @@ class _TransactionsState extends State<Transactions> {
               ),
             ),
             IconButton(
-                onPressed: () {
-                  showPopupMenu();
+                onPressed: () async {
+                  await showPopupMenu();
                 },
                 icon: Icon(
                   Icons.filter_alt,
@@ -73,45 +74,86 @@ class _TransactionsState extends State<Transactions> {
           ),
         ),
         Expanded(
-          child: FutureBuilder(
-              future: searchController.text.isEmpty
-                  ? context.read<TransProvider>().getTransProviders()
-                  : context
-                      .read<TransProvider>()
-                      .searchAmount(searchController.text),
-              builder: ((context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Card(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
+            child: switchFilter
+                ? FutureBuilder(
+                    future: searchController.text.isEmpty
+                        ? context.read<TransProvider>().getTransProviders()
+                        : context
+                            .read<TransProvider>()
+                            .searchAmount(searchController.text),
+                    builder: ((context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Card(
+                          child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text("No Transactions",
+                                            style: TextStyle(
+                                              fontSize: 20,
+                                            ))
+                                      ]),
+                                )
+                              ]),
+                        );
+                      } else {
+                        List<Trans> profileTrans = searchController.text.isEmpty
+                            ? Provider.of<TransProvider>(context, listen: true)
+                                .trans
+                            : Provider.of<TransProvider>(context, listen: true)
+                                .filteredList;
+                        return ListView.builder(
+                            itemCount: profileTrans.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return TransTile(
+                                  transaction: profileTrans[index]);
+                            });
+                      }
+                    }))
+                : FutureBuilder(
+                    future: context.read<TransProvider>().filteredAmount(type),
+                    builder: ((context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Container(
+                          height: 150,
+                          child: Card(
                             child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Text("No Transactions",
-                                      style: TextStyle(
-                                        fontSize: 20,
-                                      ))
+                                  Expanded(
+                                    child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text("No Transactions",
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                              ))
+                                        ]),
+                                  )
                                 ]),
-                          )
-                        ]),
-                  );
-                } else {
-                  List<Trans> profileTrans = searchController.text.isEmpty
-                      ? Provider.of<TransProvider>(context, listen: true).trans
-                      : Provider.of<TransProvider>(context, listen: true)
-                          .filteredList;
-                  return ListView.builder(
-                      itemCount: profileTrans.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return TransTile(transaction: profileTrans[index]);
-                      });
-                }
-              })),
-        )
+                          ),
+                        );
+                      } else {
+                        List<Trans> profileTrans =
+                            Provider.of<TransProvider>(context, listen: true)
+                                .filteredList1;
+                        return ListView.builder(
+                            itemCount: profileTrans.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return TransTile(
+                                  transaction: profileTrans[index]);
+                            });
+                      }
+                    })))
       ]),
     );
   }
@@ -128,18 +170,21 @@ class _TransactionsState extends State<Transactions> {
             onTap: () {
               setState(() {
                 // this.query = query.toLowerCase();
-                filterList1 =
-                    context.read<TransProvider>().filteredAmount("All");
+                type = 0;
+                switchFilter = true;
               });
             }),
         PopupMenuItem<String>(
             value: '1',
-            child: const Text('Deposits'),
+            child: const Text("Deposits"),
             onTap: () {
               setState(() {
                 // this.query = query.toLowerCase();
+                type = 1;
                 filterList1 =
-                    context.read<TransProvider>().filteredAmount("Deposits");
+                    context.read<TransProvider>().filteredAmount(type);
+                switchFilter = false;
+                print("testing deposit");
               });
             }),
         PopupMenuItem<String>(
@@ -148,8 +193,10 @@ class _TransactionsState extends State<Transactions> {
           onTap: () {
             setState(() {
               // this.query = query.toLowerCase();
-              filterList1 =
-                  context.read<TransProvider>().filteredAmount("Withdraws");
+              type = 2;
+              filterList1 = context.read<TransProvider>().filteredAmount(type);
+              switchFilter = false;
+              print("testing withdraw");
             });
           },
         ),
@@ -159,8 +206,10 @@ class _TransactionsState extends State<Transactions> {
           onTap: () {
             setState(() {
               // this.query = query.toLowerCase();
-              filterList1 =
-                  context.read<TransProvider>().filteredAmount("Transfer");
+              type = 3;
+              filterList1 = context.read<TransProvider>().filteredAmount(type);
+              switchFilter = false;
+              print("testing transfer");
             });
           },
         ),

@@ -29,21 +29,22 @@ class TransProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<List<Trans>> filteredAmount(String query) async {
+  Future<List<Trans>> filteredAmount(int type) async {
     filteredList1 = await TransServices().getTransService();
-    if (query == "Deposits") {
+    if (type == 1) {
       filteredList1 = filteredList1
           .where((element) => element.type.contains("deposit"))
           .toList();
+
       print("Deposit Filter");
       return filteredList1;
-    } else if (query == "Withdraws") {
+    } else if (type == 2) {
       filteredList1 = filteredList1
           .where((element) => element.type.contains("withdraw"))
           .toList();
       print("Withdraw Filter");
       return filteredList1;
-    } else if (query == "All") {
+    } else if (type == null) {
       filteredList1 = trans;
       print("All");
       return filteredList1;
@@ -54,5 +55,6 @@ class TransProvider extends ChangeNotifier {
       print("Transfer Filter");
       return filteredList1;
     }
+    notifyListeners();
   }
 }

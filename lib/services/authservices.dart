@@ -53,4 +53,23 @@ class AuthServices {
     Deposit data = Deposit(amount: transfer);
     await Client.dio.post('/transfer/$username', data: data.toJson());
   }
+
+  Future<String> editProfile({required User user}) async {
+    String token = "";
+    try {
+      FormData data = FormData.fromMap({
+        "username": user.username,
+        "password": user.password,
+        if (user.image != null)
+          "image": await MultipartFile.fromFile(user.image!)
+      });
+      Response res = await Client.dio.put("/update", data: data);
+      print(res.data["token"]);
+      token = res.data["token"];
+    } on DioError catch (error) {
+      print("error");
+    }
+
+    return token;
+  }
 }

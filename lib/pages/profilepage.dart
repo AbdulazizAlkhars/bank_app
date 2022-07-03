@@ -1,11 +1,27 @@
+import 'dart:io';
+
+import 'package:bank_app/models/user.dart';
 import 'package:bank_app/providers/authprovider.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-class EditProfilePage extends StatelessWidget {
+class EditProfilePage extends StatefulWidget {
   EditProfilePage({Key? key}) : super(key: key);
 
+  @override
+  State<EditProfilePage> createState() => _EditProfilePageState();
+}
+
+class _EditProfilePageState extends State<EditProfilePage> {
+  var usernameController = TextEditingController();
+
+  var passwordController = TextEditingController();
+  final _picker = ImagePicker();
+  File? _image;
   bool is0bscurePassword = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,8 +30,57 @@ class EditProfilePage extends StatelessWidget {
             padding: EdgeInsets.only(left: 15, top: 20, right: 15),
             child: GestureDetector(
                 onTap: () {
-//
-                  //
+                  print("edit image test");
+                  showModalBottomSheet(
+                      context: context,
+                      builder: ((builder) => Container(
+                          height: 200,
+                          width: MediaQuery.of(context).size.width,
+                          margin: EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 20),
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                "Choose Profile Photo",
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              SizedBox(
+                                height: 30,
+                                width: 100,
+                              ),
+                              ElevatedButton.icon(
+                                icon: Icon(Icons.camera),
+                                onPressed: () async {
+                                  final XFile? image = await _picker.pickImage(
+                                      source: ImageSource.camera);
+                                  setState(() {
+                                    _image = File(image!.path);
+                                  });
+                                },
+                                label: Text("From Camera  "),
+                              ),
+                              ElevatedButton.icon(
+                                icon: Icon(Icons.image),
+                                onPressed: () async {
+                                  final XFile? image = await _picker.pickImage(
+                                      source: ImageSource.gallery);
+                                  setState(() {
+                                    _image = File(image!.path);
+                                  });
+                                },
+                                label: Text("From Gallary   "),
+                              ),
+                              ElevatedButton.icon(
+                                icon: Icon(Icons.delete),
+                                onPressed: () {
+                                  setState(() {
+                                    _image = null;
+                                  });
+                                },
+                                label: Text("Remove Image"),
+                              )
+                            ],
+                          ))));
                 },
                 child: ListView(children: [
                   Center(
@@ -46,9 +111,12 @@ class EditProfilePage extends StatelessWidget {
                           ],
                           shape: BoxShape.circle,
                           image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(
-                                  '${context.read<UserProvider>().user!.image}')),
+                            fit: BoxFit.cover,
+                            image: _image != null
+                                ? NetworkImage(
+                                    '${context.read<UserProvider>().user!.image}')
+                                : NetworkImage(_image.toString()),
+                          ),
                         ),
                       ),
                       Positioned(
@@ -78,12 +146,14 @@ class EditProfilePage extends StatelessWidget {
                   buildTextField(
                     "Userneame",
                     "Change Username",
+                    "usernameController",
                     false,
                     Icon(Icons.login),
                   ),
                   buildTextField(
                     "Password",
                     "Change Password",
+                    "passwordController",
                     true,
                     Icon(Icons.lock_outline),
                   ),
@@ -96,7 +166,17 @@ class EditProfilePage extends StatelessWidget {
                           width: 340,
                           height: 49,
                           child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () async {
+                                User user = (User(
+                                    username: usernameController.text,
+                                    password: passwordController.text,
+                                    image: _image?.path));
+                                await context
+                                    .read<UserProvider>()
+                                    .editProfileProvider(user);
+                                context.push("/SecondMain");
+                                print("testing edit profile credintials");
+                              },
                               child: Text(
                                 "SAVE",
                                 style: TextStyle(
@@ -140,7 +220,7 @@ class EditProfilePage extends StatelessWidget {
                 ]))));
   }
 
-  Widget buildTextField(String labelText, String placeholder,
+  Widget buildTextField(String labelText, String placeholder, String controller,
       bool isPasswordTextField, Widget prefixIcon) {
     return Padding(
         padding: EdgeInsets.fromLTRB(25, 15, 25, 6),

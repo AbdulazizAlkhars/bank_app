@@ -33,6 +33,7 @@ class _ProfilePageState extends State<SecondMain> {
           actions: [
             IconButton(
                 onPressed: () {
+                  context.read<UserProvider>().logout();
                   context.push("/");
                 },
                 icon: Icon(
