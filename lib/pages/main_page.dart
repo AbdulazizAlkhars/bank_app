@@ -256,16 +256,34 @@ class NavHomePage extends StatelessWidget {
                                       ))
                                 ]),
                           );
-                          
                         } else {
                           List<Trans> profileTrans =
                               Provider.of<TransProvider>(context, listen: true)
                                   .trans;
+
                           return ListView.builder(
-                              itemCount: 3,
+                              itemCount: profileTrans.length == 0
+                                  ? 1
+                                  : profileTrans.length == 1
+                                      ? 1
+                                      : profileTrans.length == 2
+                                          ? 2
+                                          : 3,
                               itemBuilder: (BuildContext context, int index) {
-                                return TransTile(
-                                    transaction: profileTrans[index]);
+                                return profileTrans.length != 0
+                                    ? TransTile(
+                                        transaction: profileTrans[index])
+                                    : Card(
+                                        child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text("No Transactions",
+                                                  style: TextStyle(
+                                                    fontSize: 20,
+                                                  ))
+                                            ]),
+                                      );
                               });
                         }
                       })),
