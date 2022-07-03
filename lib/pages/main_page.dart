@@ -8,7 +8,6 @@ import 'package:countup/countup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class NavHomePage extends StatelessWidget {
@@ -28,56 +27,53 @@ class NavHomePage extends StatelessWidget {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ),
-          Container(
-              height: 200,
-              // width: 50,
-              child: Card(
-                child: Column(
-                  children: [
-                    Padding(
-                        padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
-                        child: Text(
-                          " Main Account",
-                          style: TextStyle(
-                            fontSize: 18,
-                          ),
-                        )),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 25, 10, 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Countup(
-                            begin: 0,
-                            end: context
-                                .watch<UserProvider>()
-                                .user!
-                                .balance!
-                                .toDouble(),
-                            style: TextStyle(fontSize: 30),
-                          ),
-                          Text(" KWD")
-                        ],
+          Card(
+            child: Column(
+              children: [
+                Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                    child: Text(
+                      " Main Account",
+                      style: TextStyle(
+                        fontSize: 18,
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(10, 15, 10, 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("Available Balance"),
-                        ],
+                    )),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 25, 10, 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Countup(
+                        begin: 0,
+                        end: context
+                            .watch<UserProvider>()
+                            .user!
+                            .balance!
+                            .toDouble(),
+                        style: TextStyle(fontSize: 30),
                       ),
-                    ),
-                  ],
+                      Text(" KWD")
+                    ],
+                  ),
                 ),
-                elevation: 8,
-                // shadowColor: Colors.green,
-                margin: EdgeInsets.all(20),
-                shape: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(color: Colors.white)),
-              )),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(10, 15, 10, 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Available Balance"),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            elevation: 8,
+            // shadowColor: Colors.green,
+            margin: EdgeInsets.all(20),
+            shape: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+                borderSide: BorderSide(color: Colors.white)),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -108,7 +104,7 @@ class NavHomePage extends StatelessWidget {
                           print(value);
                           context.read<UserProvider>().addDeposit(value);
 
-                          print("Hello");
+                          print("DEPOSIT DIALOG");
                         }, buttonText: "DEPOSIT");
                       },
                       child: Container(
@@ -232,20 +228,16 @@ class NavHomePage extends StatelessWidget {
               children: [
                 Container(
                     height: 50,
-                    child: InkWell(
-                        onTap: () {
-                          context.push("/transactions");
-                        },
-                        child: Center(
-                          child: Padding(
-                              padding: EdgeInsets.fromLTRB(10, 15, 10, 10),
-                              child: Text(
-                                "My Transactions",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                ),
-                              )),
-                        ))),
+                    child: Center(
+                      child: Padding(
+                          padding: EdgeInsets.fromLTRB(10, 15, 10, 10),
+                          child: Text(
+                            "Latest Transactions",
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          )),
+                    )),
                 Expanded(
                   child: FutureBuilder(
                       future: context.read<TransProvider>().getTransProviders(),
@@ -254,7 +246,17 @@ class NavHomePage extends StatelessWidget {
                             ConnectionState.waiting) {
                           return Center(child: CircularProgressIndicator());
                         } else if (snapshot.hasError) {
-                          return Text("Network Error");
+                          return Card(
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text("No Transactions",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                      ))
+                                ]),
+                          );
+                          
                         } else {
                           List<Trans> profileTrans =
                               Provider.of<TransProvider>(context, listen: true)

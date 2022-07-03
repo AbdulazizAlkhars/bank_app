@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:bank_app/models/deposit.dart';
+import 'package:bank_app/models/trans.dart';
+import 'package:bank_app/services/trans_services.dart';
 import 'package:flutter/material.dart';
 import 'package:jwt_decode/jwt_decode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,6 +13,7 @@ import '../services/clients.dart';
 class UserProvider extends ChangeNotifier {
   User? user;
   String token = "";
+
   Future<bool> signup(User user) async {
     try {
       token = await AuthServices().signup(user: user);
@@ -90,6 +93,7 @@ class UserProvider extends ChangeNotifier {
     user?.balance = (user?.balance ?? 0) - transferProvider;
     notifyListeners();
   }
+
 }
 
 

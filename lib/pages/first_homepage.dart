@@ -21,7 +21,7 @@ class FirstHomePage extends StatelessWidget {
             height: 300,
             image: AssetImage("assets/images/logo_b1.png")),
         Text(
-          "Welcome.",
+          "Welcome",
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         Text(

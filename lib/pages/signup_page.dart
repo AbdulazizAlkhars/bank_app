@@ -20,33 +20,31 @@ class SignUp extends StatelessWidget {
           // const Text("Sign Up"),
           ),
       resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(25.0),
-                child: Text(
-                  "Create Account",
-                  style: TextStyle(
-                    fontSize: 25,
-                    //  fontWeight: FontWeight.bold
-                  ),
+      body: Padding(
+        padding: const EdgeInsets.all(14.0),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text(
+                "Create Account",
+                style: TextStyle(
+                  fontSize: 25,
+                  //  fontWeight: FontWeight.bold
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text(
-                  "Kindly Fill Out Your Informations",
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Text(
+                "Kindly Fill Out Your Informations",
+                style: TextStyle(
+                  fontSize: 18,
                 ),
               ),
-              SignUpForm(),
-            ],
-          ),
+            ),
+            SignUpForm(),
+          ],
         ),
       ),
     );

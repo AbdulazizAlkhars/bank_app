@@ -84,15 +84,15 @@ class _WithdrawalOpenDialogState extends State<WithdrawalOpenDialog> {
             children: [
               ElevatedButton(
                   style: ElevatedButton.styleFrom(onSurface: Colors.blue),
-                  onPressed: isButtonActive
+                  onPressed: (isButtonActive)
                       ? () {
                           setState(
                             () => isButtonActive = false,
                           );
                           widget.onSubmit(int.parse(_controller.text));
                           _controller.clear();
-                          // context.pop();
-                          print("Hello");
+                          Navigator.pop(context);
+                          print("WITHDRAWEL DIALOG");
                         }
                       : null,
                   child: Text(widget.buttonText))

@@ -84,7 +84,7 @@ class _DepositOpenDialogState extends State<DepositOpenDialog> {
             children: [
               ElevatedButton(
                   style: ElevatedButton.styleFrom(onSurface: Colors.blue),
-                  onPressed: isButtonActive
+                  onPressed: (isButtonActive)
                       ? () {
                           setState(
                             () => isButtonActive = false,
@@ -92,7 +92,7 @@ class _DepositOpenDialogState extends State<DepositOpenDialog> {
                           widget.onSubmit(int.parse(_controller.text));
                           _controller.clear();
                           Navigator.pop(context);
-                          print("Hello");
+                          print("DEPOSIT DIALOG");
                         }
                       : null,
                   child: Text(widget.buttonText))

@@ -77,13 +77,13 @@ class EditProfilePage extends StatelessWidget {
                   ),
                   buildTextField(
                     "Userneame",
-                    "XXAdd the username XX",
+                    "Change Username",
                     false,
                     Icon(Icons.login),
                   ),
                   buildTextField(
                     "Password",
-                    "XXLink the password XX",
+                    "Change Password",
                     true,
                     Icon(Icons.lock_outline),
                   ),

@@ -78,7 +78,7 @@ class _ProfilePageState extends State<SecondMain> {
                 NavigationDestination(
                     icon: Icon(Icons.swap_horiz_rounded),
                     selectedIcon: Icon(Icons.swap_horizontal_circle),
-                    label: "transfer"),
+                    label: "Transactions"),
                 context.read<UserProvider>().user!.image != null
                     ? NavigationDestination(
                         icon: CircleAvatar(
